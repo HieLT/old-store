@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Xác nhận đơn hàng - CHỢ ĐỒ CŨ</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .header {
+                margin-bottom: 20px;
+            }
+            .info-section {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+            }
+            .info-block {
+                width: 48%;
+            }
+            .info-title {
+                font-weight: bold;
+            }
+            .divider {
+                border-top: 1px solid #ddd;
+                margin: 20px 0;
+            }
+            .order-details {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+            .order-details td {
+                padding: 8px;
+            }
+            .price-right {
+                text-align: right;
+            }
+            .total {
+                font-weight: bold;
+            }
+            .footer {
+                margin-top: 40px;
+                text-align: right;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <p>Xin chào {{customerName}}</p>
+            <p>Bạn có một đơn hàng từ {{sellerName}} tại CHỢ ĐỒ CŨ!</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="info-section">
+            <div class="info-block">
+                <div class="info-title">Thông tin khách hàng</div>
+                <p style="margin-top: 5px">
+                    {{customerName}}<br />
+                    {{customerEmail}}<br />
+                    {{customerPhone}}
+                </p>
+            </div>
+            <div class="info-block">
+                <div class="info-title">Địa chỉ nhận hàng</div>
+                <p style="margin-top: 5px">{{customerAddress}}</p>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-block">
+                <div class="info-title">Thông tin người bán</div>
+                <p style="margin-top: 5px">
+                    {{sellerName}}<br />
+                    {{sellerEmail}}<br />
+                    {{sellerPhone}}
+                </p>
+            </div>
+            <div class="info-block">
+                <div class="info-title">Phương thức thanh toán</div>
+                <p style="margin-top: 5px">{{paymentMethod}}</p>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-block">
+                <div class="info-title" style="margin-left: -3px">
+                    Thông tin đơn hàng
+                </div>
+                <p style="margin-top: 5px">Mã đơn hàng: {{orderId}}</p>
+                <p style="margin-top: -15px">Ngày đặt hàng: {{createdAt}}</p>
+            </div>
+        </div>
+
+        <table class="order-details">
+            <tr>
+                <td><img src="{{productImage}}" style="width: 150px; height: 150px;"/></td>
+                <td>{{productName}}</td>
+                <td class="price-right">
+                    {{#if productPrice}} {{productPrice}} {{else}}
+                    <div
+                        style="
+                            background-color: #e6fffb;
+                            color: #08979c;
+                            padding: 2px 4px;
+                            display: inline-block;
+                            border-radius: 2px;
+                            font-family: sans-serif;
+                            font-size: 14px;
+                        "
+                    >
+                        Đồ cho tặng
+                    </div>
+                    {{/if}}
+                </td>
+            </tr>
+            <!-- <tr>
+                <td colspan="2">Phí vận chuyển:</td>
+                <td class="price-right">16,000 VND</td>
+            </tr> -->
+            <tr class="total" style="font-size: 22px;">
+                <td colspan="2">Thành tiền</td>
+                <td class="price-right">{{total}}</td>
+            </tr>
+
+            <tr class="total">
+                <td colspan="8">Link thanh toán: <a href="{{paymentLink}}">{{paymentLink}}</a></td>
+            </tr>
+        </table>
+
+        <div class="divider"></div>
+
+        <p><strong>Ghi chú:</strong></p>
+        <p>
+            Nếu Anh/chị có bất kỳ câu hỏi nào, xin liên hệ với chúng tôi tại
+            <a href="mailto:lethanhhiep430@gmail.com"
+                >lethanhhiep430@gmail.com</a
+            >
+        </p>
+
+        <div class="footer">
+            <p>
+                <i>Trân trọng,</i><br />
+                <span style="font-weight: 600">Ban quản trị CHỢ ĐỒ CŨ</span>
+            </p>
+        </div>
+    </body>
+</html>

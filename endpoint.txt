@@ -1,0 +1,62 @@
+import { Request, Response } from "express";
+import Post from "../models/Post";  // Import the Post model
+import Product from "../models/Product";  // Import the Product model
+import mongoose from "mongoose";
+
+// Function to create a new Post
+export const createPost = async (req: Request, res: Response) => {
+    try {
+        const { poster_id, status, draft_product, location, product_id, productData } = req.body;
+
+        // Step 1: Handle the product creation or use an existing product
+        let savedProduct;
+        
+        if (productData) {
+            // If productData is provided, create a new product
+            const { name, description, attributes, images, price, condition } = productData;
+
+            // Validate that mandatory fields are present
+            if (!name || !images || !attributes || Object.keys(attributes).length === 0) {
+                return res.status(400).json({ message: 'Name, images, and attributes are required to create a new product' });
+            }
+
+            // Create a new product
+            const newProduct = new Product({
+                name,
+                description,
+                attributes,
+                images,
+                price,
+                condition
+            });
+            
+            savedProduct = await newProduct.save();
+        } else if (product_id) {
+            // If product_id is provided, ensure it exists
+            savedProduct = await Product.findById(product_id);
+            if (!savedProduct) {
+                return res.status(404).json({ message: 'Product not found' });
+            }
+        }
+
+        // Step 2: Create the Post
+        const newPost = new Post({
+            poster_id,
+            status,
+            draft_product,
+            location,
+            product_id: savedProduct ? savedProduct._id : undefined  // Assign product ID if available
+        });
+
+        const savedPost = await newPost.save();
+
+        // Step 3: Send success response
+        return res.status(201).json({ message: 'Post created successfully', post: savedPost });
+
+    } catch (error) {
+        // Handle errors
+        console.error(error);
+        return res.status(500).json({ message: 'An error occurred while creating the post', error });
+    }
+};
+    
